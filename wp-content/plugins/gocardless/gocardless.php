@@ -34,7 +34,8 @@ function gocardless_init() {
       'app_id'        => get_option('gocardless_app_id'),
       'app_secret'    => get_option('gocardless_app_secret'),
       'merchant_id'   => get_option('gocardless_merchant_id'),
-      'access_token'  => get_option('gocardless_access_token')
+      'access_token'  => get_option('gocardless_access_token'),
+      'ua_tag'        => 'gcwp'
     ));
 
   }
