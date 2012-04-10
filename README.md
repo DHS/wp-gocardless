@@ -6,6 +6,6 @@ Create GoCardless subscriptions within WordPress.
 
 ### Installation
 
-- Copy the gocardless folder into wp-content/plugins
-- Click 'Activate plugin' next to GoCardless in the plugins tab of Wordpress Admin
-- Click 'GoCardless in the Plugins submenu and follow the setup instructions
+1. Copy the gocardless folder into wp-content/plugins
+2. Click 'Activate plugin' next to GoCardless in the plugins tab of Wordpress Admin
+3. Click 'GoCardless' in the Plugins submenu and follow the setup instructions
