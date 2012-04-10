@@ -2,11 +2,11 @@
 
 /*
 Plugin Name: GoCardless Wordpress plugin
-Plugin URI: http://github.com/gocardless/wp-gocardless
-Description: Create GoCardless payments within WordPress
+Plugin URI: http://github.com/DHS/wp-gocardless
+Description: Create GoCardless subscriptions within Wordpress
 Version: 0.1.0
 Author: David Haywood Smith
-Author URI: http://gocardless.com
+Author URI: https://github.com/DHS
 License: MIT
 */
 
