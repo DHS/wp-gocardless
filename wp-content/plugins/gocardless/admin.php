@@ -189,9 +189,10 @@ up</a> for a GoCardless account. There's an overview of that process
 <a href="http://blog.gocardless.com/post/19695292096/goingcardless-an-introduction-to-gocardless-for">here</a>.
 </p>
 
-<p>Copy your API keys from the GoCardless Developer tab and paste them in below (make sure the 'sandbox account' option is checked).</p>
+<p>Update the Redirect URI in the GoCardless Developer tab to point to any page or post on your website such as:</p>
+<input type="text" readonly="true" value="<?php echo site_url(); ?>" />
 
-<p>You should also update the Redirect URI in the GoCardless Developer tab to point to any page or post on your website.</p>
+<p>Copy your API keys from the GoCardless Developer tab and paste them in below (make sure the 'sandbox account' option is checked).</p>
 
 <form action="" method="post">
 <input type="hidden" name="form" value="keys" />
