@@ -96,7 +96,7 @@ function gocardless_admin_dashboard() {
   // Load GoCardless
   gocardless_init();
 
-  // Get subscriptions
+  // Fetch subscriptions
   $raw_subscriptions = GoCardless_Merchant::find(get_option('gocardless_merchant_id'))->subscriptions();
 
   if (count($raw_subscriptions) > 0) {
@@ -112,7 +112,33 @@ function gocardless_admin_dashboard() {
 
     $subscriptions = array();
     foreach ($index as $key => $value) {
-        $subscriptions[$key] = $raw_subscriptions[$key];
+      $subscriptions[$raw_subscriptions[$key]->id] = $raw_subscriptions[$key];
+    }
+
+    // End sorting
+
+    // Fetch bills
+    $raw_bills = GoCardless_Merchant::find(get_option('gocardless_merchant_id'))->bills();
+
+    // Add bill count to each subscription
+    foreach ($raw_bills as $key => $value) {
+      if (is_object($subscriptions[$value->source_id])) {
+        $subscriptions[$value->source_id]->bill_count++;
+      }
+    }
+
+    // Fetch user list
+    $user_list = GoCardless_Merchant::find(get_option('gocardless_merchant_id'))->users();
+
+    // Fetch individual user as index function doesn't contain full info
+    $users = array();
+    foreach ($user_list as $key => $value) {
+      $users[$value->id] = GoCardless_User::find($value->id);
+    }
+
+    // Add user object to subscriptions
+    foreach ($subscriptions as $key => $value) {
+      $subscriptions[$key]->user = $users[$value->user_id];
     }
 
     echo '<h2>Subscriptions</h2>';
@@ -147,19 +173,8 @@ function gocardless_admin_dashboard() {
   // Loop through subscriptions
   foreach ($subscriptions as $subscription) {
 
+    // Formatting
     $subscription->status = ucfirst($subscription->status);
-
-    //$subscription['user'] = array(
-    //  'name' => 'David Haywood Smith',
-    //  'email' => 'davehs@gmail.com'
-    //);
-    $subscription->user = GoCardless_User::find($subscription->user_id);
-
-    //$bills = array(1, 2, 3);
-    $bills = GoCardless_Merchant::find(get_option('gocardless_merchant_id'))->bills(array('source_id' => $subscription->id));
-    $subscription->bills = count($bills);
-
-    //$subscription->date = date('j F Y', strtotime('2011-10-12T13:51:30Z'));
     $subscription->date = date('j F Y', strtotime($subscription->created_at));
 
     echo <<<HTML
@@ -168,7 +183,7 @@ function gocardless_admin_dashboard() {
       <td>{$subscription->id}</td>
       <td>{$subscription->user->email}</td>
       <td>{$subscription->status}</td>
-      <td>{$subscription->bills}</td>
+      <td>{$subscription->bill_count}</td>
       <td class="submit">
         <form action="" method="post">
           <input type="hidden" name="form" value="cancel" />
