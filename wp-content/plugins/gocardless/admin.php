@@ -95,9 +95,24 @@ function gocardless_admin_dashboard() {
   // Load GoCardless
   gocardless_init();
 
-  $subscriptions = GoCardless_Merchant::find(get_option('gocardless_merchant_id'))->subscriptions();
+  // Get subscriptions
+  $raw_subscriptions = GoCardless_Merchant::find(get_option('gocardless_merchant_id'))->subscriptions();
 
-  if (count($subscriptions) > 0) {
+  if (count($raw_subscriptions) > 0) {
+
+    // Sort subscriptions, most recent first
+
+    $index = array();
+    foreach ($raw_subscriptions as $key => $value) {
+        $index[$key] = $value->created_at;
+    }
+
+    arsort($index);
+
+    $subscriptions = array();
+    foreach ($index as $key => $value) {
+        $subscriptions[$key] = $raw_subscriptions[$key];
+    }
 
     echo '<h2>Subscriptions</h2>';
 
