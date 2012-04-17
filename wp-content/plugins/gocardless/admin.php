@@ -123,6 +123,7 @@ function gocardless_admin_dashboard() {
     </tr>
   </tfoot>
   <tbody>
+
 <?php
 
   // Loop through subscriptions
@@ -164,9 +165,8 @@ HTML;
 
   }
 
-
-
 ?>
+
   </tbody>
 </table>
 
@@ -184,7 +184,8 @@ function gocardless_admin_settings() {
 
 <h3>1. Set up your API keys</h3>
 
-<p><a href="https://sandbox.gocardless.com/merchants/sandbox_accounts/new">Sign
+<p>
+<a href="https://sandbox.gocardless.com/merchants/sandbox_accounts/new">Sign
 up</a> for a GoCardless account. There's an overview of that process
 <a href="http://blog.gocardless.com/post/19695292096/goingcardless-an-introduction-to-gocardless-for">here</a>.
 </p>

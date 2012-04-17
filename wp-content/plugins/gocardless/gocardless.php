@@ -12,7 +12,7 @@ License: MIT
 
 // If user is an admin include the file that contains admin functionality
 if ( is_admin() ) {
-	require_once dirname( __FILE__ ) . '/admin.php';
+  require_once dirname( __FILE__ ) . '/admin.php';
 }
 
 // Helper function to include and initialize the GoCardless PHP library
@@ -48,8 +48,8 @@ function gocardless_init() {
 function gocardless_admin_menu_option() {
 
   if (function_exists('add_submenu_page')) {
-	  add_submenu_page('plugins.php', 'GoCardless', 'GoCardless', 'manage_options', 'gocardless_admin', 'gocardless_admin');
-	}
+    add_submenu_page('plugins.php', 'GoCardless', 'GoCardless', 'manage_options', 'gocardless_admin', 'gocardless_admin');
+  }
 
 }
 
