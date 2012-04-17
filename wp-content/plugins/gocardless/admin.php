@@ -90,6 +90,7 @@ function gocardless_admin() {
 
 function gocardless_admin_dashboard() {
 
+  // Grab timestamp for measuring API data load time
   $start_time = microtime(true);
 
   // Load GoCardless
@@ -191,6 +192,7 @@ HTML;
 
   }
 
+  // Show API data load time
   $finish_time = microtime(true);
   $total_time = round(($finish_time - $start_time), 2);
   echo '<p class="description">Data fetched in ' . $total_time . ' seconds.</p>';
