@@ -81,10 +81,6 @@ function gocardless_shortcode($attrs) {
 
   }
 
-  //echo '<pre>';
-  //print_r($payment_details);
-  //echo '</pre>';
-
   // Generate paylink
   $paylink = GoCardless::new_subscription_url($payment_details);
 
@@ -116,7 +112,7 @@ add_shortcode('GoCardless', 'gocardless_shortcode');
 function gocardless_confirm() {
 
   if (isset($_GET['resource_id']) && isset($_GET['resource_type'])) {
-    // Get vars found so let's try confirming payment
+    // Get vars found so confirm payment
 
     // Load GoCardless
     gocardless_init();

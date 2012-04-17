@@ -80,10 +80,10 @@ function gocardless_admin() {
   // Intro sentence
   echo '<p>This plugin allows you to create a link within Wordpress that lets users pay a subscription.</p>';
 
-  // Tabs, might be useful later
-  //echo '<h2 class="nav-tab-wrapper"><a href="?page=gocardless_dashboard" class="nav-tab">Dashboard</a> <a href="?page=gocardless_settings" class="nav-tab nav-tab-active">Settings</a></h2>';
-
+  // Load dashboard
   gocardless_admin_dashboard();
+
+  // Load setup
   gocardless_admin_setup();
 
 }
@@ -141,7 +141,14 @@ function gocardless_admin_dashboard() {
       $subscriptions[$key]->user = $users[$value->user_id];
     }
 
+    // Load dashboard view
     include 'view_dashboard.php';
+
+    // Show API data load time
+    $finish_time = microtime(true);
+    $total_time = round(($finish_time - $start_time), 2);
+    echo '<p class="description">Data fetched in ' . $total_time . ' seconds.</p>';
+
 
   }
 
@@ -149,6 +156,7 @@ function gocardless_admin_dashboard() {
 
 function gocardless_admin_setup() {
 
+  // Load setup view
   include 'view_setup.php';
 
 }
