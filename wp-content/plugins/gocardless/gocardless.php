@@ -18,7 +18,7 @@ if ( is_admin() ) {
 // Helper function to include and initialize the GoCardless PHP library
 function gocardless_init() {
 
-  define('VERSION', '0.1.0');
+  define('GCWP_VERSION', '0.1.0');
 
   // Check to see if already instantiated
   if ( ! class_exists('GoCardless')) {
@@ -37,7 +37,7 @@ function gocardless_init() {
       'app_secret'    => get_option('gocardless_app_secret'),
       'merchant_id'   => get_option('gocardless_merchant_id'),
       'access_token'  => get_option('gocardless_access_token'),
-      'ua_tag'        => 'gocardless-wp/v' . VERSION
+      'ua_tag'        => 'gocardless-wp/v' . GCWP_VERSION
     ));
 
   }
