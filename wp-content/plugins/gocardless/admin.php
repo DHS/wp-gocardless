@@ -205,12 +205,12 @@ HTML;
 
 <?php
 
-  }
-
   // Show API data load time
   $finish_time = microtime(true);
   $total_time = round(($finish_time - $start_time), 2);
   echo '<p class="description">Data fetched in ' . $total_time . ' seconds.</p>';
+
+  }
 
 }
 
