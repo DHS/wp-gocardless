@@ -90,6 +90,8 @@ function gocardless_admin() {
 
 function gocardless_admin_dashboard() {
 
+  $start_time = microtime(true);
+
   // Load GoCardless
   gocardless_init();
 
@@ -173,6 +175,10 @@ HTML;
 <?php
 
   }
+
+  $finish_time = microtime(true);
+  $total_time = round(($finish_time - $start_time), 2);
+  echo '<p class="description">Data fetched in ' . $total_time . ' seconds.</p>';
 
 }
 
