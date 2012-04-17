@@ -20,6 +20,14 @@ function gocardless_init() {
 
   define('GCWP_VERSION', '0.1.0');
 
+  global $gocardless_config;
+  global $gocardless_limit;
+
+  $gocardless_config = get_option('gocardless_config');
+  $gocardless_limit = get_option('gocardless_limit');
+
+  $gocardless_limit = array_map('stripslashes', $gocardless_limit);
+
   // Check to see if already instantiated
   if ( ! class_exists('GoCardless')) {
 
@@ -27,16 +35,16 @@ function gocardless_init() {
     require_once dirname( __FILE__ ) . '/lib/GoCardless.php';
 
     // Sandbox mode? Defaults to production
-    if (get_option('gocardless_sandbox') == true) {
+    if ($gocardless_config['sandbox'] == true) {
       GoCardless::$environment = 'sandbox';
     }
 
     // Initialize library
     GoCardless::set_account_details(array(
-      'app_id'        => get_option('gocardless_app_id'),
-      'app_secret'    => get_option('gocardless_app_secret'),
-      'merchant_id'   => get_option('gocardless_merchant_id'),
-      'access_token'  => get_option('gocardless_access_token'),
+      'app_id'        => $gocardless_config['app_id'],
+      'app_secret'    => $gocardless_config['app_secret'],
+      'merchant_id'   => $gocardless_config['merchant_id'],
+      'access_token'  => $gocardless_config['access_token'],
       'ua_tag'        => 'gocardless-wp/v' . GCWP_VERSION
     ));
 
@@ -59,6 +67,9 @@ add_action('admin_menu', 'gocardless_admin_menu_option');
 // [GoCardless] shortcode
 function gocardless_shortcode($attrs) {
 
+  global $gocardless_config;
+  global $gocardless_limit;
+
   // Load GoCardless
   gocardless_init();
 
@@ -71,15 +82,16 @@ function gocardless_shortcode($attrs) {
   // Loop through expected vars, setting $payment_details
   foreach ($expected_vars as $key) {
 
-    // Fetch value from WP Options
-    $value = get_option('gocardless_limit_' . $key);
-
     // Only set $payment_details if value is not null
-    if ($value != null) {
-      $payment_details[$key] = get_option('gocardless_limit_' . $key);
+    if ($gocardless_limit['limit_' . $key] != null) {
+      $payment_details[$key] = $gocardless_limit['limit_' . $key];
     }
 
   }
+
+  //echo '<pre>';
+  //print_r($payment_details);
+  //echo '</pre>';
 
   // Generate paylink
   $paylink = GoCardless::new_subscription_url($payment_details);

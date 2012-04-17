@@ -3,13 +3,16 @@
 // Process admin form udates
 function gocardless_admin_update($params = array()) {
 
+  global $gocardless_config;
+  global $gocardless_limit;
+
   // Check form selector is passed
   if (isset($params['form'])) {
 
-    if ($params['form'] == 'keys' || $params['form'] == 'limit') {
+    if ($params['form'] == 'config' || $params['form'] == 'limit') {
 
-      // Updating API keys
-      if ($params['form'] == 'keys') {
+      // Updating API config
+      if ($params['form'] == 'config') {
         $expected_vars = array('app_id', 'app_secret', 'merchant_id', 'access_token', 'sandbox');
         $response = 'API keys updated!';
       }
@@ -18,29 +21,31 @@ function gocardless_admin_update($params = array()) {
       if ($params['form'] == 'limit') {
         $expected_vars = array('limit_name', 'limit_description', 'limit_amount', 'limit_interval_length', 'limit_interval_unit', 'limit_calendar_intervals');
         $response = 'Payment updated!';
+        $gocardless_limit = $to_save;
       }
 
-      // Loop through expected vars saving with the Wordpress Options mechanism
+      // Loop through expected vars creating array
       foreach ($expected_vars as $key) {
 
-        // Special treatment for heckboxes
+        // Special treatment for checkboxes
         if ($key == 'sandbox' || $key == 'limit_calendar_intervals') {
           if ($_POST[$key] == 'on') {
-            $_POST[$key] = 'true';
+            $to_save[$key] = 'true';
           } else {
-            $_POST[$key] = false;
+            $to_save[$key] = false;
           }
+        } else {
+          $to_save[$key] = $_POST[$key];
         }
-
-        // Update Wordress Options value
-        update_option('gocardless_' . $key, $_POST[$key]);
 
       }
 
-    } elseif ($params['form'] == 'cancel') {
+      // Save with Wordress Options value
+      update_option('gocardless_' . $params['form'], $to_save);
 
-      // Load GoCardless
       gocardless_init();
+
+    } elseif ($params['form'] == 'cancel') {
 
       if ($_POST['subscription_id']) {
         // ID found
@@ -69,6 +74,9 @@ function gocardless_admin_update($params = array()) {
 // Show the GoCardless admin page
 function gocardless_admin() {
 
+  // Load GoCardless
+  gocardless_init();
+
   // Title
   echo '<h1>GoCardless Wordpress plugin</h1>';
 
@@ -81,9 +89,17 @@ function gocardless_admin() {
   echo '<p>This plugin allows you to create a link within Wordpress that lets users pay a subscription.</p>';
 
   // Load dashboard
-  gocardless_admin_dashboard();
+  if (  isset($gocardless_config['app_id'])
+        && isset($gocardless_config['app_secret'])
+        && isset($gocardless_config['merchant_id'])
+        && isset($gocardless_config['access_token'])) {
 
-  // Load setup
+    gocardless_admin_dashboard();
+
+  }
+
+
+  // Load setup form
   gocardless_admin_setup();
 
 }
@@ -97,7 +113,7 @@ function gocardless_admin_dashboard() {
   gocardless_init();
 
   // Fetch subscriptions
-  $raw_subscriptions = GoCardless_Merchant::find(get_option('gocardless_merchant_id'))->subscriptions();
+  $raw_subscriptions = GoCardless_Merchant::find($gocardless_config['merchant_id'])->subscriptions();
 
   if (count($raw_subscriptions) > 0) {
 
@@ -118,7 +134,7 @@ function gocardless_admin_dashboard() {
     // End sorting
 
     // Fetch bills
-    $raw_bills = GoCardless_Merchant::find(get_option('gocardless_merchant_id'))->bills();
+    $raw_bills = GoCardless_Merchant::find($gocardless_config['merchant_id'])->bills();
 
     // Add bill count to each subscription
     foreach ($raw_bills as $key => $value) {
@@ -128,7 +144,7 @@ function gocardless_admin_dashboard() {
     }
 
     // Fetch user list
-    $user_list = GoCardless_Merchant::find(get_option('gocardless_merchant_id'))->users();
+    $user_list = GoCardless_Merchant::find($gocardless_config['merchant_id'])->users();
 
     // Fetch individual user as index function doesn't contain full info
     $users = array();
@@ -155,6 +171,9 @@ function gocardless_admin_dashboard() {
 }
 
 function gocardless_admin_setup() {
+
+  global $gocardless_config;
+  global $gocardless_limit;
 
   // Load setup view
   include 'view_setup.php';
