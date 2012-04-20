@@ -13,13 +13,19 @@ function gocardless_admin_update($params = array()) {
 
       // Updating API config
       if ($params['form'] == 'config') {
-        $expected_vars = array('app_id', 'app_secret', 'merchant_id', 'access_token', 'sandbox');
+        $expected_vars = array(
+          'app_id', 'app_secret', 'merchant_id', 'access_token', 'sandbox'
+        );
         $response = 'API keys updated!';
       }
 
       // Updating payment info
       if ($params['form'] == 'limit') {
-        $expected_vars = array('limit_name', 'limit_description', 'limit_amount', 'limit_interval_length', 'limit_interval_unit', 'limit_calendar_intervals');
+        $expected_vars = array(
+          'limit_name', 'limit_description', 'limit_amount',
+          'limit_interval_length', 'limit_interval_unit',
+          'limit_calendar_intervals'
+        );
         $response = 'Payment updated!';
         $gocardless_limit = $to_save;
       }
@@ -134,7 +140,8 @@ function gocardless_admin_dashboard() {
     // End sorting
 
     // Fetch bills
-    $raw_bills = GoCardless_Merchant::find($gocardless_config['merchant_id'])->bills();
+    $raw_bills = GoCardless_Merchant::find($gocardless_config['merchant_id'])
+      ->bills();
 
     // Add bill count to each subscription
     foreach ($raw_bills as $key => $value) {
@@ -144,7 +151,8 @@ function gocardless_admin_dashboard() {
     }
 
     // Fetch user list
-    $user_list = GoCardless_Merchant::find($gocardless_config['merchant_id'])->users();
+    $user_list = GoCardless_Merchant::find($gocardless_config['merchant_id'])
+      ->users();
 
     // Fetch individual user as index function doesn't contain full info
     $users = array();
