@@ -15,7 +15,7 @@ if ( is_admin() ) {
   require_once dirname( __FILE__ ) . '/admin.php';
 }
 
-// Helper function to include and initialize the GoCardless PHP library
+// Initialize the GoCardless PHP library
 function gocardless_init() {
 
   define('GCWP_VERSION', '0.1.0');

@@ -49,6 +49,7 @@ function gocardless_admin_update($params = array()) {
       // Save with Wordress Options value
       update_option('gocardless_' . $params['form'], $to_save);
 
+      // Run the initialize function again to load vars
       gocardless_init();
 
     } elseif ($params['form'] == 'cancel') {
@@ -110,6 +111,7 @@ function gocardless_admin() {
 
 }
 
+// Show the admin dashboard
 function gocardless_admin_dashboard() {
 
   global $gocardless_config;
@@ -165,7 +167,7 @@ function gocardless_admin_dashboard() {
       $subscriptions[$key]->user = $users[$value->user_id];
     }
 
-    // Load dashboard view
+    // Load dashboard view, requires $subscriptions
     include 'view_dashboard.php';
 
     // Show API data load time
@@ -178,12 +180,13 @@ function gocardless_admin_dashboard() {
 
 }
 
+// Show admin setup
 function gocardless_admin_setup() {
 
   global $gocardless_config;
   global $gocardless_limit;
 
-  // Load setup view
+  // Load setup view, requires $gocardless_config and $gocardless_limit
   include 'view_setup.php';
 
 }
