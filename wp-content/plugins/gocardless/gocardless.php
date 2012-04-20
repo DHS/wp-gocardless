@@ -35,7 +35,7 @@ function gocardless_init() {
     require_once dirname( __FILE__ ) . '/lib/GoCardless.php';
 
     // Sandbox mode? Defaults to production
-    if ($gocardless_config['sandbox'] == true) {
+    if ($gocardless_config['sandbox']) {
       GoCardless::$environment = 'sandbox';
     }
 
@@ -89,6 +89,7 @@ function gocardless_shortcode($attrs) {
 
   }
 
+  // Uncomment the following to inspect the payment vars
   //echo '<pre>';
   //print_r($payment_details);
   //echo '</pre>';
@@ -96,7 +97,7 @@ function gocardless_shortcode($attrs) {
   // Generate paylink
   $paylink = GoCardless::new_subscription_url($payment_details);
 
-  if ($attrs['url'] == true) {
+  if ($attrs['url']) {
 
     // Return raw url
     return $paylink;
@@ -106,9 +107,15 @@ function gocardless_shortcode($attrs) {
     // Return link w/text
 
     if (isset($payment_details['name'])) {
+
+      // Use the link name if available
       $link_text = $payment_details['name'];
+
     } else {
+
+      // Otherwise show default text
       $link_text = 'New subscription';
+
     }
 
     return '<a href="' . $paylink . '">' . $link_text . '</a>';
