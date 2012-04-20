@@ -93,7 +93,8 @@ function gocardless_admin() {
   }
 
   // Intro sentence
-  echo '<p>This plugin allows you to create a link within Wordpress that lets users pay a subscription.</p>';
+  echo '<p>This plugin allows you to create a link within Wordpress that lets
+  users pay a subscription.</p>';
 
   // Load dashboard
   if (  isset($gocardless_config['app_id'])
@@ -173,7 +174,8 @@ function gocardless_admin_dashboard() {
     // Show API data load time
     $finish_time = microtime(true);
     $total_time = round(($finish_time - $start_time), 2);
-    echo '<p class="description">Data fetched in ' . $total_time . ' seconds.</p>';
+    echo '<p class="description">Data fetched in ' . $total_time .
+      ' seconds.</p>';
 
 
   }
