@@ -112,11 +112,11 @@ function gocardless_admin() {
 
 function gocardless_admin_dashboard() {
 
+  global $gocardless_config;
+  global $gocardless_limit;
+
   // Grab timestamp for measuring API data load time
   $start_time = microtime(true);
-
-  // Load GoCardless
-  gocardless_init();
 
   // Fetch subscriptions
   $raw_subscriptions = GoCardless_Merchant::find($gocardless_config['merchant_id'])->subscriptions();
