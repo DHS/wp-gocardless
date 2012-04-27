@@ -3,6 +3,9 @@
 // Show the GoCardless admin page
 function gocardless_admin() {
 
+  global $gocardless_config;
+  global $gocardless_limit;
+
   // Load GoCardless
   gocardless_init();
 
