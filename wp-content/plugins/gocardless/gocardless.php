@@ -18,7 +18,7 @@ if ( is_admin() ) {
 // Initialize the GoCardless PHP library
 function gocardless_init() {
 
-  define('GCWP_VERSION', '0.1.1');
+  define('GC_WP_VERSION', '0.1.1');
 
   global $gocardless_config;
   global $gocardless_limit;
@@ -45,7 +45,7 @@ function gocardless_init() {
       'app_secret'    => $gocardless_config['app_secret'],
       'merchant_id'   => $gocardless_config['merchant_id'],
       'access_token'  => $gocardless_config['access_token'],
-      'ua_tag'        => 'gocardless-wp/v' . GCWP_VERSION
+      'ua_tag'        => 'gocardless-wp/v' . GC_WP_VERSION
     ));
 
   }
