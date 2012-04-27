@@ -4,7 +4,7 @@
 Plugin Name: GoCardless Wordpress plugin
 Plugin URI: http://github.com/DHS/wp-gocardless
 Description: Create GoCardless subscriptions within Wordpress
-Version: 0.1.0
+Version: 0.1.1
 Author: David Haywood Smith
 Author URI: https://github.com/DHS
 License: MIT
@@ -18,7 +18,7 @@ if ( is_admin() ) {
 // Initialize the GoCardless PHP library
 function gocardless_init() {
 
-  define('GCWP_VERSION', '0.1.0');
+  define('GCWP_VERSION', '0.1.1');
 
   global $gocardless_config;
   global $gocardless_limit;
