@@ -26,10 +26,16 @@ function gocardless_init() {
   $gocardless_config = get_option('gocardless_config');
   $gocardless_limit = get_option('gocardless_limit');
 
-  $gocardless_limit = array_map('stripslashes', $gocardless_limit);
+  if (is_array($gocardless_limit)) {
+    $gocardless_limit = array_map('stripslashes', $gocardless_limit);
+  }
 
   // Check to see if already instantiated
-  if ( ! class_exists('GoCardless')) {
+  if ( ! class_exists('GoCardless')
+        && isset($gocardless_config['app_id'])
+        && isset($gocardless_config['app_secret'])
+        && isset($gocardless_config['merchant_id'])
+        && isset($gocardless_config['access_token'])) {
 
     // Include GoCardless PHP library
     require_once dirname( __FILE__ ) . '/lib/GoCardless.php';
