@@ -15,6 +15,8 @@ if ( is_admin() ) {
   require_once dirname( __FILE__ ) . '/admin.php';
 }
 
+require_once dirname( __FILE__ ) . '/subscriber.php';
+
 // Initialize the GoCardless PHP library
 function gocardless_init() {
 
@@ -69,6 +71,18 @@ function gocardless_admin_menu_option() {
 
 // Bind admin menu option
 add_action('admin_menu', 'gocardless_admin_menu_option');
+
+// Subscriber menu option
+function gocardless_subscriber_menu_option() {
+
+  if (function_exists('add_menu_page')) {
+    add_menu_page('GoCardless', 'GoCardless', 'read', 'gocardless', 'gocardless_subscriber');
+  }
+
+}
+
+// Bind subscriber menu option
+add_action('admin_menu', 'gocardless_subscriber_menu_option');
 
 // [GoCardless] shortcode
 function gocardless_shortcode($attrs) {
