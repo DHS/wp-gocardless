@@ -4,15 +4,14 @@
 <h3>1. Set up your API keys</h3>
 
 <p>
-<a href="https://sandbox.gocardless.com/merchants/sandbox_accounts/new">Sign
-up</a> for a GoCardless account. There's an overview of that process
-<a href="http://blog.gocardless.com/post/19695292096/goingcardless-an-introduction-to-gocardless-for">here</a>.
+<a href="https://gocardless.com/merchants/new">Sign
+up</a> for a GoCardless merchant account.
 </p>
 
 <p>Update the Redirect URI in the GoCardless Developer tab to point to any page or post on your website such as:</p>
 <input type="text" readonly="true" value="<?php echo site_url(); ?>" />
 
-<p>Copy your API keys from the GoCardless Developer tab and paste them in below (make sure the 'sandbox account' option is checked).</p>
+<p>Copy your API keys from the GoCardless Developer tab and paste them in below.</p>
 
 <form action="" method="post">
 <input type="hidden" name="form" value="config" />
@@ -48,25 +47,6 @@ up</a> for a GoCardless account. There's an overview of that process
 
 <p>You can also return the raw URL. While editing a post click 'Insert link' and paste the following into the URL field:</p>
 <input type="text" readonly="true" value="[GoCardless url='true']" />
-
-<p>&nbsp;</p>
-
-<h3>4. Test your subscription</h3>
-
-<p>You can now test your subscription link in the sandbox using the following dummy bank account details:</p>
-
-<blockquote>
-<table>
-<tr><td>Account number</td><td><input type="text" readonly="true" value="55779911" /></td></tr>
-<tr><td>Sort code</td><td><input type="text" readonly="true" value="20-00-00" /></td></tr>
-</table>
-</blockquote>
-<p>&nbsp;</p>
-
-<h3>5. Go live!</h3>
-
-<p>Upgrade your GoCardless sandbox account to a 'production' account using the link at the top of <a href="http://sandbox.gocardless.com">your dashboard</a>.
-<br />Paste your 'production' API keys in above and make sure the 'sandbox account' option is <strong>unticked</strong>.</p>
-<p>Congratulations - your subscription is now live!</p>
 <p>NB. Subscriptions will appear in a table above.</p>
+
 <p>&nbsp;</p>
