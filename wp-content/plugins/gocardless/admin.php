@@ -73,7 +73,7 @@ function gocardless_admin_dashboard() {
 
     // Add bill count to each subscription
     foreach ($raw_bills as $key => $value) {
-      if (is_object($subscriptions[$value->source_id])) {
+      if (isset($subscriptions[$value->source_id]) && is_object($subscriptions[$value->source_id])) {
         $subscriptions[$value->source_id]->bill_count++;
       }
     }
