@@ -110,6 +110,9 @@ function gocardless_admin_setup() {
 
   global $gocardless_config;
   global $gocardless_limit;
+  
+  $gocardless_config = get_option('gocardless_config');
+  $gocardless_limit = get_option('gocardless_limit');
 
   // POST vars passed so call form processing method
   if (isset($_POST)) {
