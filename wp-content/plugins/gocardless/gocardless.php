@@ -82,7 +82,7 @@ function gocardless_admin_menu_option() {
 // Bind admin menu option
 add_action('admin_menu', 'gocardless_admin_menu_option');
 
-// [glc] shortcode
+// [gcl] shortcode
 function gocardless_shortcode($attrs) {
 
   global $gocardless_config;
@@ -143,7 +143,7 @@ function gocardless_shortcode($attrs) {
 }
 
 // Bind shortcode function
-add_shortcode('glc', 'gocardless_shortcode');
+add_shortcode('gcl', 'gocardless_shortcode');
 
 // Confirm the payment
 function gocardless_confirm() {
@@ -174,8 +174,8 @@ function gocardless_confirm() {
 
 }
 
-// Bind [glc_complete] shortcode function
-add_shortcode('glc_complete', 'gocardless_confirm');
+// Bind [gcl_complete] shortcode function
+add_shortcode('gcl_complete', 'gocardless_confirm');
 
 // Bind confirmation function to the footer of every page (not ideal)
 add_action('wp_footer', 'gocardless_confirm');
