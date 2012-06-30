@@ -29,11 +29,9 @@ function gocardless_admin() {
 
     gocardless_admin_dashboard();
 
+  } else {
+    echo '<div class="error"><p>You must first setup your API settings in the <a href="'.admin_url('admin.php?page=gocardless_admin_setup').'">setup page</a>!</p></div>';
   }
-
-
-  // Load setup form
-  gocardless_admin_setup();
 
 }
 
@@ -112,7 +110,15 @@ function gocardless_admin_setup() {
 
   global $gocardless_config;
   global $gocardless_limit;
+  
+  $gocardless_config = get_option('gocardless_config');
+  $gocardless_limit = get_option('gocardless_limit');
 
+  // POST vars passed so call form processing method
+  if (isset($_POST)) {
+    gocardless_admin_update($_POST);
+  }
+  
   // Load setup view, requires $gocardless_config and $gocardless_limit
   include 'view_setup.php';
 
@@ -153,7 +159,7 @@ function gocardless_admin_update($params = array()) {
 
         // Special treatment for checkboxes
         if ($key == 'sandbox' || $key == 'limit_calendar_intervals') {
-          if ($_POST[$key] == 'on') {
+          if (isset($_POST[$key]) && $_POST[$key] == 'on') {
             $to_save[$key] = 'true';
           } else {
             $to_save[$key] = false;

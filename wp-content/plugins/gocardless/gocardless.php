@@ -60,11 +60,21 @@ function gocardless_init() {
 
 }
 
-// Admin menu option
+/* Uninstall function for removing options */
+function gocardless_uninstall() {
+  delete_option('gocardless_config');
+	delete_option('gocardless_limit');
+}
+
+/* Register uninstall  hook to remove options etc */
+register_uninstall_hook( __FILE__, 'gocardless_uninstall');
+
+// Admin menu page & setup page
 function gocardless_admin_menu_option() {
 
-  if (function_exists('add_submenu_page')) {
-    add_submenu_page('plugins.php', 'GoCardless', 'GoCardless', 'manage_options', 'gocardless_admin', 'gocardless_admin');
+  if (function_exists('add_menu_page') && function_exists('add_submenu_page')) {
+    add_menu_page('GoCardless', 'GoCardless', 'manage_options', 'gocardless_admin', 'gocardless_admin');
+    add_submenu_page('gocardless_admin', 'GoCardless Setup', 'Setup', 'manage_options', 'gocardless_admin_setup', 'gocardless_admin_setup');
   }
 
 }
@@ -72,19 +82,7 @@ function gocardless_admin_menu_option() {
 // Bind admin menu option
 add_action('admin_menu', 'gocardless_admin_menu_option');
 
-// Subscriber menu option
-function gocardless_subscriber_menu_option() {
-
-  if (function_exists('add_menu_page')) {
-    add_menu_page('GoCardless', 'GoCardless', 'read', 'gocardless', 'gocardless_subscriber');
-  }
-
-}
-
-// Bind subscriber menu option
-add_action('admin_menu', 'gocardless_subscriber_menu_option');
-
-// [GoCardless] shortcode
+// [gcl] shortcode
 function gocardless_shortcode($attrs) {
 
   global $gocardless_config;
@@ -145,7 +143,7 @@ function gocardless_shortcode($attrs) {
 }
 
 // Bind shortcode function
-add_shortcode('GoCardless', 'gocardless_shortcode');
+add_shortcode('gcl', 'gocardless_shortcode');
 
 // Confirm the payment
 function gocardless_confirm() {
@@ -175,6 +173,9 @@ function gocardless_confirm() {
   }
 
 }
+
+// Bind [gcl_complete] shortcode function
+add_shortcode('gcl_complete', 'gocardless_confirm');
 
 // Bind confirmation function to the footer of every page (not ideal)
 add_action('wp_footer', 'gocardless_confirm');

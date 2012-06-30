@@ -1,4 +1,3 @@
-
 <h2>Subscriptions</h2>
 
 <table class="widefat">
@@ -31,7 +30,7 @@
 
     // Formatting
     $subscription->status = ucfirst($subscription->status);
-    $subscription->date = date('j F Y', strtotime($subscription->created_at));
+    $subscription->date = date(get_option('date_format'), strtotime($subscription->created_at));
 
     echo <<<HTML
     <tr>
