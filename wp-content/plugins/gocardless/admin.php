@@ -153,7 +153,7 @@ function gocardless_admin_update($params = array()) {
 
         // Special treatment for checkboxes
         if ($key == 'sandbox' || $key == 'limit_calendar_intervals') {
-          if ($_POST[$key] == 'on') {
+          if (isset($_POST[$key]) && $_POST[$key] == 'on') {
             $to_save[$key] = 'true';
           } else {
             $to_save[$key] = false;
