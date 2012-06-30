@@ -60,6 +60,15 @@ function gocardless_init() {
 
 }
 
+/* Uninstall function for removing options */
+function gocardless_uninstall() {
+  delete_option('gocardless_config');
+	delete_option('gocardless_limit');
+}
+
+/* Register uninstall  hook to remove options etc */
+register_uninstall_hook( __FILE__, 'gocardless_uninstall');
+
 // Admin menu page & setup page
 function gocardless_admin_menu_option() {
 
