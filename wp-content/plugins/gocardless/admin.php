@@ -29,6 +29,8 @@ function gocardless_admin() {
 
     gocardless_admin_dashboard();
 
+  } else {
+    echo '<div class="error"><p>You must first setup your API settings in the <a href="'.admin_url('admin.php?page=gocardless_admin_setup').'">setup page</a>!</p></div>';
   }
 
 }
