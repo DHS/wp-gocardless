@@ -31,10 +31,6 @@ function gocardless_admin() {
 
   }
 
-
-  // Load setup form
-  gocardless_admin_setup();
-
 }
 
 // Show the admin dashboard
@@ -113,6 +109,11 @@ function gocardless_admin_setup() {
   global $gocardless_config;
   global $gocardless_limit;
 
+  // POST vars passed so call form processing method
+  if (isset($_POST)) {
+    gocardless_admin_update($_POST);
+  }
+  
   // Load setup view, requires $gocardless_config and $gocardless_limit
   include 'view_setup.php';
 
