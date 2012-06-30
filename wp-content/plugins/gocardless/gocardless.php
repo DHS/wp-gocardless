@@ -60,11 +60,12 @@ function gocardless_init() {
 
 }
 
-// Admin menu option
+// Admin menu page & setup page
 function gocardless_admin_menu_option() {
 
-  if (function_exists('add_submenu_page')) {
-    add_submenu_page('plugins.php', 'GoCardless', 'GoCardless', 'manage_options', 'gocardless_admin', 'gocardless_admin');
+  if (function_exists('add_menu_page') && function_exists('add_submenu_page')) {
+    add_menu_page('GoCardless', 'GoCardless', 'manage_options', 'gocardless_admin', 'gocardless_admin');
+    add_submenu_page('gocardless_admin', 'GoCardless Setup', 'Setup', 'manage_options', 'gocardless_admin_setup', 'gocardless_admin_setup');
   }
 
 }
