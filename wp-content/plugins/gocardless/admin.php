@@ -45,7 +45,12 @@ function gocardless_admin_dashboard() {
   $start_time = microtime(true);
 
   // Fetch subscriptions
-  $raw_subscriptions = GoCardless_Merchant::find($gocardless_config['merchant_id'])->subscriptions();
+  try {
+    $raw_subscriptions = GoCardless_Merchant::find($gocardless_config['merchant_id'])->subscriptions();
+  } catch (GoCardless_ApiException $e) {
+    // Do something here (display error notice)
+	  $raw_subscriptions = null;
+  }
 
   if (count($raw_subscriptions) > 0) {
 
