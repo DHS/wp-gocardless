@@ -26,13 +26,11 @@ function gocardless_admin() {
         && isset($gocardless_config['app_secret'])
         && isset($gocardless_config['merchant_id'])
         && isset($gocardless_config['access_token'])) {
-
     gocardless_admin_dashboard();
-
-  } else {
-    echo '<div class="error"><p>You must first setup your API settings in the <a href="'.admin_url('admin.php?page=gocardless_admin_setup').'">setup page</a>!</p></div>';
   }
-
+  
+  // Load setup form
+  gocardless_admin_setup();
 }
 
 // Show the admin dashboard
@@ -40,17 +38,21 @@ function gocardless_admin_dashboard() {
 
   global $gocardless_config;
   global $gocardless_limit;
-
+  
   // Grab timestamp for measuring API data load time
   $start_time = microtime(true);
 
   // Fetch subscriptions
-  $raw_subscriptions = GoCardless_Merchant::find($gocardless_config['merchant_id'])->subscriptions();
+  try {
+  	$raw_subscriptions = GoCardless_Merchant::find($gocardless_config['merchant_id'])->subscriptions();
+  } catch (GoCardless_ApiException $e) {
+  	// Do something here (display error notice)
+	$raw_subscriptions = null;
+  }
 
   if (count($raw_subscriptions) > 0) {
 
     // Sort subscriptions, most recent first
-
     $index = array();
     foreach ($raw_subscriptions as $key => $value) {
         $index[$key] = $value->created_at;
@@ -71,7 +73,7 @@ function gocardless_admin_dashboard() {
 
     // Add bill count to each subscription
     foreach ($raw_bills as $key => $value) {
-      if (isset($subscriptions[$value->source_id]) && is_object($subscriptions[$value->source_id])) {
+      if (is_object($subscriptions[$value->source_id])) {
         $subscriptions[$value->source_id]->bill_count++;
       }
     }
@@ -99,10 +101,7 @@ function gocardless_admin_dashboard() {
     $total_time = round(($finish_time - $start_time), 2);
     echo '<p class="description">Data fetched in ' . $total_time .
       ' seconds.</p>';
-
-
   }
-
 }
 
 // Show admin setup
@@ -110,15 +109,7 @@ function gocardless_admin_setup() {
 
   global $gocardless_config;
   global $gocardless_limit;
-  
-  $gocardless_config = get_option('gocardless_config');
-  $gocardless_limit = get_option('gocardless_limit');
 
-  // POST vars passed so call form processing method
-  if (isset($_POST)) {
-    gocardless_admin_update($_POST);
-  }
-  
   // Load setup view, requires $gocardless_config and $gocardless_limit
   include 'view_setup.php';
 
@@ -188,16 +179,10 @@ function gocardless_admin_update($params = array()) {
 
       } else {
         // ID not found, fail
-
         $response = 'Subscription not found!';
-
       }
-
     }
-
     // Return a message
     echo '<div class="updated fade"><p>' . $response . '</p></div>';
-
   }
-
 }
